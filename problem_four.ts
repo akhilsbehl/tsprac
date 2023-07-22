@@ -1,10 +1,10 @@
-type Product = {
+export type Product = {
     name: string;
     price: number;
     quantity: number;
 }
 
-class ProductNotFoundError extends Error {
+export class ProductNotFoundError extends Error {
 
     constructor(productName: string) {
         super(`Product '${productName}' does not exist in inventory `);
@@ -13,7 +13,7 @@ class ProductNotFoundError extends Error {
 
 }
 
-class ProductExistsError extends Error {
+export class ProductExistsError extends Error {
 
     constructor(product: Product) {
         super(`Product '${product.name}' already exists.`);
@@ -22,7 +22,7 @@ class ProductExistsError extends Error {
 
 }
 
-class NegativePriceError extends Error {
+export class NegativePriceError extends Error {
 
     constructor (price: Number) {
         super(`Price can not be negative. Received ${price}.`);
@@ -31,7 +31,7 @@ class NegativePriceError extends Error {
 
 }
 
-class NegativeQuantityError extends Error {
+export class NegativeQuantityError extends Error {
 
     constructor (quantity: Number) {
         super(`Quantity can not be negative. Received ${quantity}.`);
@@ -40,7 +40,7 @@ class NegativeQuantityError extends Error {
 
 }
 
-class Inventory {
+export class Inventory {
 
     inventory: Product[];
 
@@ -112,92 +112,4 @@ class Inventory {
         )
         return sortedProducts;
     };
-}
-
-let inventory = new Inventory([]);
-inventory.addProduct({name: "Widget", price: 25.00, quantity: 100});
-inventory.addProduct({name: "Gadget", price: 75.00, quantity: 200});
-
-inventory.removeProduct("Widget");
-
-inventory.updateProductPrice("Gadget", 50);
-
-inventory.updateProductQuantity("Gadget", 150);
-
-let totalValue = inventory.calculateTotalValue();
-console.log(totalValue); // Should output 7500 (50*150)
-
-let products = inventory.listProducts();
-console.log(products); // Should output [{name: "Gadget", price: 50.00, quantity: 150}]
-
-try {
-    inventory.removeProduct("Nonexistent Product");
-} catch (e) {
-    if (e instanceof Error) {
-        console.log(e.message);
-    }
-}
-
-try {
-    inventory.updateProductQuantity("Gadget", -10);
-} catch (e) {
-    if (e instanceof Error) {
-        console.log(e.message);
-    }
-}
-
-try {
-    inventory.updateProductPrice("Nonexistent Product", 100);
-} catch (e) {
-    if (e instanceof Error) {
-        console.log(e.message);
-    }
-}
-
-try {
-    inventory.updateProductQuantity("Nonexistent Product", 10);
-} catch (e) {
-    if (e instanceof Error) {
-        console.log(e.message);
-    }
-}
-
-try {
-    inventory.addProduct({name: "Gadget", price: 50.00, quantity: 150});
-} catch (e) {
-    if (e instanceof ProductExistsError) {
-        console.log(e.message); // Should output: Product 'Gadget' already exists. Perhaps use updateProductQuantity?
-    }
-}
-
-try {
-    inventory.addProduct({name: "New Product", price: 100.00, quantity: -5});
-} catch (e) {
-    if (e instanceof NegativeQuantityError) {
-        console.log(e.message); // Should output: Product quantity cannot be negative.
-    }
-}
-
-try {
-    inventory.removeProduct("Nonexistent Product");
-} catch (e) {
-    if (e instanceof ProductNotFoundError) {
-        console.log(e.message); // Should output: Product 'Nonexistent Product' does not exist in inventory.
-    }
-}
-
-try {
-    inventory.updateProductQuantity("Nonexistent Product", 10);
-} catch (e) {
-    if (e instanceof ProductNotFoundError) {
-        console.log(e.message); // Should output: Product 'Nonexistent Product' does not exist in inventory.
-    }
-}
-
-try {
-    inventory.updateProductPrice("Nonexistent Product", 100);
-} catch (e) {
-    if (e instanceof ProductNotFoundError) {
-        console.log(e.message); // Should output: Product 'Nonexistent Product' does not exist in inventory.
-    }
 }
