@@ -1,12 +1,12 @@
-const {
+import {
     Inventory,
     ProductNotFoundError,
     ProductExistsError,
     NegativeQuantityError,
-} = require('./problem_four');
+} from './problem_four';
 
 describe('Inventory', () => {
-    let inventory;
+    let inventory: Inventory;
 
     beforeEach(() => {
         inventory = new Inventory([]);

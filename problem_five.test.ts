@@ -31,8 +31,10 @@ describe('League', () => {
         ]);
     });
 
-    test('getRankings', () => {
-        expect(() => league.addMatchResult("foo bar")).toThrow(MatchFormatError);
+    test('wrong match result format', () => {
+        expect(() => league
+            .addMatchResult("foo bar"))
+            .toThrow(MatchFormatError);
     });
 
 });
